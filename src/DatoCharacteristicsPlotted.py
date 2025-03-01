@@ -18,47 +18,58 @@ import numpy as np
 
 # Set up a figure with multiple subplots
 fig, axs = plt.subplots(2, 3, figsize=(15, 10))
-fig.suptitle('Visualization of Refined Datos Characteristics', fontsize=16)
+# fig.suptitle('Visualization of Refined Datos Characteristics', fontsize=16)
+fig.suptitle('Datos 特徵的視覺化', fontsize=16)
 
 # Disorganized yet Insecure
 x, y = np.random.rand(2, 50)
 highlight = np.random.choice([True, False], 50)
 axs[0, 0].scatter(x[~highlight], y[~highlight], alpha=0.5)
 axs[0, 0].scatter(x[highlight], y[highlight], color='red')
-axs[0, 0].set_title('Disorganized yet Insecure')
+# axs[0, 0].set_title('Disorganized yet Insecure')
+axs[0, 0].set_title('混亂但不安全')
 
 # Overwhelming yet Resourceful
 x = np.arange(100)
 y = np.random.rand(100)
 axs[0, 1].bar(x, y)
 axs[0, 1].bar(x[40:60], y[40:60], color='green')
-axs[0, 1].set_title('Overwhelming yet Resourceful')
+# axs[0, 1].set_title('Overwhelming yet Resourceful')
+axs[0, 1].set_title('過量但充滿資源')
 
 # Unpredictably Honest
 x = np.arange(10)
 y = np.random.rand(10) * 10
-axs[1, 0].plot(x, y, label='Random Data')
-axs[1, 0].plot(x, x*0.5 + 5, label='Underlying Truth', color='orange')
+axs[1, 0].plot(x, y, label='亂數資料')
+axs[1, 0].plot(x, x*0.5 + 5, label='潛在真相', color='orange')
 axs[1, 0].legend()
-axs[1, 0].set_title('Unpredictably Honest')
+# axs[1, 0].set_title('Unpredictably Honest')
+axs[1, 0].set_title('不可預測地誠實')
 
 # Hoarder with Hidden Depths
 x = np.arange(10)
 y = np.cumsum(np.random.rand(10) * 10)
 axs[1, 1].plot(x, y)
 axs[1, 1].scatter([2, 5, 7], [y[2], y[5], y[7]], color='purple')
-axs[1, 1].set_title('Hoarder with Hidden Depths')
+# axs[1, 1].set_title('Hoarder with Hidden Depths')
+axs[1, 1].set_title('囤積但隱藏深度')
 
 # In Need of Guidance and Clarity
 x = np.linspace(0, 4*np.pi, 100)
 y = np.sin(x) + np.random.rand(100) - 0.5
 axs[1, 2].scatter(x, y, alpha=0.3)
 axs[1, 2].plot(x, np.sin(x), color='red')
-axs[1, 2].set_title('In Need of Guidance and Clarity')
+# axs[1, 2].set_title('In Need of Guidance and Clarity')
+axs[1, 2].set_title('需要指引和清晰性')
 
 # Adjust layout
 plt.tight_layout()
 plt.subplots_adjust(top=0.9)
 
 # Display the plots
-plt.show()
+# plt.show()
+
+# Save the figure
+plt.rcParams['font.sans-serif'] = ['Arial Unicode Ms']
+plt.savefig('Datos_Characteristics_Visualization.png', dpi=1200)
+
