@@ -31,10 +31,19 @@ filtered_data = co2_data[co2_data['Entity'].isin(random_countries)]
 plt.figure(figsize=(12, 8))
 sns.scatterplot(x='Year', y='Annual CO₂ emissions', hue='Entity', data=filtered_data, palette="viridis")
 
-plt.title('CO₂ Emissions Over Time for Selected Countries')
-plt.xlabel('Year')
-plt.ylabel('Annual CO₂ Emissions (Tonnes)')
-plt.legend(title='Country', loc='upper left', fontsize='medium')  # Legend in the upper right
+# plt.title('CO₂ Emissions Over Time for Selected Countries')
+plt.title('選定國家的CO₂排放量根據時間變化')
+# plt.xlabel('Year')
+plt.xlabel('年份')
+# plt.ylabel('Annual CO₂ Emissions (Tonnes)')
+plt.ylabel('年度CO₂排放量（噸）')
+# plt.legend(title='Country', loc='upper left', fontsize='medium')  # Legend in the upper right
+plt.legend(title='國家', loc='upper left', fontsize='medium')  # Legend in the upper right
 plt.yscale('log')
 plt.grid(True)
-plt.show()
+# plt.show()
+
+# Save the plot as an image
+plt.rcParams['font.sans-serif'] = ['Arial Unicode Ms']
+plt.savefig('C06-F10-CO2_EMMISSIONS_SCATTERCHART.png', dpi=1200, bbox_inches='tight')
+

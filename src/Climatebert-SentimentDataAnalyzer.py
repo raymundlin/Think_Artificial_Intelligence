@@ -20,9 +20,12 @@ data = pd.read_csv('../datasets/climatebert-climate-sentiment.csv')
 # Summarize and plot the distribution of sentiment labels
 label_distribution = data['label'].value_counts(normalize=True)
 ax = label_distribution.plot(kind='bar', color='#125740', edgecolor='black', ylim=(0, label_distribution.max() * 1.1))
-plt.xlabel('Sentiment Labels')
-plt.ylabel('Proportion')
-plt.title('Distribution of Sentiment Labels')
+# plt.xlabel('Sentiment Labels')
+plt.xlabel('情感標籤')
+# plt.ylabel('Proportion')
+plt.ylabel('比例')
+# plt.title('Distribution of Sentiment Labels')
+plt.title('情感標籤分佈')
 plt.xticks(ticks=[0, 1, 2], labels=['Risk (0)', 'Neutral (1)', 'Opportunity (2)'], rotation=0)
 plt.grid(True, linestyle='--', linewidth=0.5)
 
@@ -30,4 +33,9 @@ plt.grid(True, linestyle='--', linewidth=0.5)
 for p in ax.patches:
     ax.annotate(f"{p.get_height():.2%}", (p.get_x() + p.get_width() / 2., p.get_height()), ha='center', va='center', xytext=(0, 10), textcoords='offset points')
 
-plt.show()
+# plt.show()
+
+# Save the plot as an image
+plt.rcParams['font.sans-serif'] = ['Arial Unicode Ms']
+plt.savefig('C06-F06-ClimateBert_Sentiment_Graph.png', dpi=1200, bbox_inches='tight')
+
