@@ -12,18 +12,32 @@
 
 import matplotlib.pyplot as plt
 import networkx as nx
+from matplotlib.colors import LinearSegmentedColormap
+
+# Create a colormap for yellow and blue shades
+yellow_cmap = LinearSegmentedColormap.from_list("yellow_shades", ["#FFFFE0", "#FFD740"], N=6)
+blue_cmap = LinearSegmentedColormap.from_list("blue_shades", ["#E0FFFF", "#8682B4"], N=6)
+
+# Generate 6 shades for each color
+yellow_shades = [yellow_cmap(i / 5) for i in range(6)]
+blue_shades = [blue_cmap(i / 5) for i in range(6)]
+
+# Assign colors based on node indices
+node_colors = yellow_shades + blue_shades  # First 6 nodes yellow, next 6 blue
 
 # Define AI Lifecycle stages and personas
-lifecycle_stages = ["Data Preparation", "Model Development", "Prompt Engineering", "Model Deployment", "Application Integration", "Ethical Compliance"]
-personas = ["Data Engineer", "Data Scientist", "Prompt Engineer", "AIOps Engineer", "Application Developer", "AI Ethics Officer"]
+# lifecycle_stages = ["Data Preparation", "Model Development", "Prompt Engineering", "Model Deployment", "Application Integration", "Ethical Compliance"]
+lifecycle_stages = ["【資料準備】", "【模型開發】", "【提示工程】", "【模型部署】", "【應用整合】", "【倫理合規】"]
+# personas = ["Data Engineer", "Data Scientist", "Prompt Engineer", "AIOps Engineer", "Application Developer", "AI Ethics Officer"]
+personas = ["資料工程師", "資料科學家", "提示工程師", "AIOps工程師", "應用開發者", "AI倫理官"]
 
 # Mapping stages to personas
 lifecycle_pos = {stage: (i, 1) for i, stage in enumerate(lifecycle_stages)}
 persona_pos = {persona: (i, 0) for i, persona in enumerate(personas)}
 
 # Define colors for each stage and persona
-lifecycle_colors = ['darkred', 'darkblue', 'darkgreen', 'darkorange', 'darkviolet', 'darkturquoise']
-persona_colors = ['lightcoral', 'lightblue', 'lightgreen', 'peachpuff', 'plum', 'paleturquoise']
+# ['darkred', 'darkblue', 'darkgreen', 'darkorange', 'darkviolet', 'darkturquoise']
+# ['lightcoral', 'lightblue', 'lightgreen', 'peachpuff', 'plum', 'paleturquoise']
 
 # Prepare the graph
 G_combined = nx.DiGraph()
@@ -35,19 +49,35 @@ for stage in lifecycle_stages:
 for persona in personas:
     G_combined.add_node(persona)
 
-    # Connect each stage to its corresponding persona
-    G_combined.add_edge(stage, persona)
+# connect each stage to the next stage
+for i in range(len(lifecycle_stages) - 1):
+    G_combined.add_edge(lifecycle_stages[i], lifecycle_stages[i + 1])
+
+# Connect each stage to its corresponding persona
+for stage, persona in zip(lifecycle_stages, personas):
+    G_combined.add_edge(persona, stage)
 
 # Define the node size and font size
-node_size = 4000
-font_size = 12
+m = 4
+node_size = 30000 * m
+font_size = 15 * m
 
 # Define the combined positions
 combined_pos = {**lifecycle_pos, **persona_pos}
+print(combined_pos)
 
-# Redrawing the graph with the generated definitions
-nx.draw(G_combined, combined_pos, with_labels=True, node_color=lifecycle_colors + persona_colors, 
-        node_size=node_size, font_size=font_size, node_shape='s', arrowsize=20)
+# draw the graph on figure
+fig = plt.figure(figsize=(60, 40))
+ax = fig.add_subplot(111)
+ax.set_aspect('equal')
+ax.margins(0)  # Remove automatic margins
+nx.draw(G_combined, combined_pos, with_labels=True, node_color=node_colors, font_color='black', width=5,
+        node_size=node_size, font_size=font_size, node_shape='s', arrowsize=35, ax=ax)
 
-plt.title("AI Lifecycle and Associated Personas", fontsize=15)
-plt.show()
+plt.rcParams['font.sans-serif'] = ['Arial Unicode Ms']
+plt.title("人工智慧生命週期與對應角色\n\n", fontsize=20 * m)
+
+# Save the figure
+plt.savefig('AI_LifecyclePersonasVisualization.png', format='png', dpi=fig.dpi, bbox_inches='tight')
+# plt.show()
+
