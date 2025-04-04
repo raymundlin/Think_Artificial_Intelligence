@@ -30,6 +30,7 @@ num_clusters = 5  # Feel free to change this number and experiment
 
 # Select features for clustering: Model Year and Electric Range
 features = df[['Model Year', 'Electric Range']]
+# features = df[['車型年份', '電池續航里程']]
 
 # Normalize the features
 scaler = StandardScaler()
@@ -43,7 +44,8 @@ df['Cluster'] = kmeans.fit_predict(features_scaled)
 winning_cluster = df.groupby('Cluster')['Electric Range'].mean().idxmax()
 
 # Colors for each cluster
-colors = plt.cm.rainbow(np.linspace(0, 1, num_clusters))
+rainbow = plt.get_cmap('rainbow')
+colors = rainbow(np.linspace(0, 1, num_clusters))
 
 # Plotting the clusters
 plt.figure(figsize=(12, 8))
@@ -55,9 +57,12 @@ for cluster in range(num_clusters):
                 s=250 if cluster == winning_cluster else 150, 
                 alpha=0.7)
 
-plt.title('BEV Clusters by Model Year and Electric Range')
-plt.xlabel('Model Year')
-plt.ylabel('Electric Range')
+# plt.title('BEV Clusters by Model Year and Electric Range')
+plt.title('BEV群組按車型年份和電池續航里程')
+# plt.xlabel('Model Year')
+plt.xlabel('車型年份')
+# plt.ylabel('Electric Range')
+plt.ylabel('電池續航里程 (mi)')
 plt.grid(True)
 
 # Legend and text for the winning cluster
@@ -69,5 +74,7 @@ winning_cars = df[df['Cluster'] == winning_cluster][['Model Year', 'Make', 'Mode
 winning_text = '\n'.join([f"{int(row['Model Year'])} {row['Make']} {row['Model']} ({int(row['Electric Range'])} mi)" for index, row in winning_cars.iterrows()])
 plt.annotate(winning_text, xy=(0.01, 0.9), xycoords='axes fraction', fontsize=10, horizontalalignment='left', verticalalignment='top')
 
-plt.tight_layout()
+plt.rcParams['font.sans-serif'] = ['Arial Unicode Ms']
+plt.savefig('AI_LifecyclePersonasVisualization.png', format='png', bbox_inches='tight', dpi=1200)
+# plt.tight_layout()
 plt.show()

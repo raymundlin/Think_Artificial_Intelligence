@@ -36,16 +36,23 @@ predicted_ranges = model.predict(future_years)
 
 # Plotting
 plt.figure(figsize=(12, 8))
-plt.scatter(df['Model Year'], df['Electric Range'], alpha=0.5, label='Actual Data')
-plt.plot(future_years, predicted_ranges, 'r-', label='Predicted Ranges')
+# plt.scatter(df['Model Year'], df['Electric Range'], alpha=0.5, label='Actual Data')
+plt.scatter(df['Model Year'], df['Electric Range'], alpha=0.5, label='實際資料')
+# plt.plot(future_years, predicted_ranges, 'r-', label='Predicted Ranges')
+plt.plot(future_years, predicted_ranges, 'r-', label='預測續航里程')
 
 # Annotate predicted ranges on the plot
 for year, range in zip(future_years, predicted_ranges):
     plt.annotate(f"{int(range)} mi", (year, range), textcoords="offset points", xytext=(-25,0), ha='center')
 
-plt.title('EV Ranges Prediction (2025-2030)')
-plt.xlabel('Model Year')
-plt.ylabel('Electric Range (mi)')
+plt.rcParams['font.sans-serif'] = ['Arial Unicode Ms']
+# plt.title('EV Ranges Prediction (2025-2030)')
+plt.title('電動車續航預測 (2025-2030)')
+# plt.xlabel('Model Year')
+plt.xlabel('車型年份')
+# plt.ylabel('Electric Range (mi)')
+plt.ylabel('電池續航里程 (英里)')
 plt.legend()
 plt.grid(True)
+plt.savefig('AI_LifecyclePersonasVisualization.png', format='png', bbox_inches='tight', dpi=1200)
 plt.show()
